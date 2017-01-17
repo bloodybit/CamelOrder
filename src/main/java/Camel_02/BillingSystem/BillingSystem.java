@@ -29,8 +29,8 @@ public class BillingSystem {
                         System.out.println(order);
 
                         ObjectMessage answer = session.createObjectMessage(order);
-                        boolean validated = Math.random() > 0.8;
-                        answer.setBooleanProperty("billingValidated", validated);
+                        boolean validated = Math.random() > 0.6;
+                        answer.setBooleanProperty("validated", validated);
 
                         MessageProducer producer = session.createProducer(outQueue);
                         producer.send(answer);

@@ -31,21 +31,19 @@ public class WebOrderSystem {
                     from("stream:in")
                             .process(orderFactory)
                             .to("stream:out")
-                            .to("activemq:queue:billingOrders")
                             .to("activemq:queue:inventoryOrders");
                 }
             });
 
-            while(true) {
-                ctx.start();
 
-                System.out.println("Start");
-                Thread.sleep(10000);
-                ctx.stop();
-                System.out.println("Start");
-                System.out.println("End");
+            ctx.start();
 
-            }
+            System.out.println("Start");
+            Thread.sleep(10000);
+            System.in.read();
+            ctx.stop();
+
+
         } catch (Exception e){
             e.printStackTrace();
         }

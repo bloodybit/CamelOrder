@@ -17,8 +17,8 @@ public class InventorySystem {
             Connection con = conFactory.createConnection();
 
             final Session session = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Queue inQueue = session.createQueue("validatedOrders");
-            Queue outQueue = session.createQueue("resultOrders");
+            Queue inQueue = session.createQueue("inventoryOrders");
+            Queue outQueue = session.createQueue("billingOrders");
             MessageConsumer consumer = session.createConsumer(inQueue);
             consumer.setMessageListener(new MessageListener() {
                 @Override
@@ -29,8 +29,8 @@ public class InventorySystem {
                         System.out.println(order);
 
                         ObjectMessage answer = session.createObjectMessage(order);
-                        boolean validated = Math.random() > 0.8;
-                        answer.setBooleanProperty("inventoryValidated", validated);
+                        boolean validated = Math.random() > 0.6;
+                        answer.setBooleanProperty("validated", validated);
 
                         MessageProducer producer = session.createProducer(outQueue);
                         producer.send(answer);

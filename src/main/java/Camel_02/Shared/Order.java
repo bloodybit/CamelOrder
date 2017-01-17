@@ -14,7 +14,7 @@ public class Order implements Serializable {
     private String numberOfDivingSuits;
     private String overallItems;
     private String orderId;
-    private String valid; // Values: valid, not valid, under process
+    private Boolean valid; // Values: valid, not valid, under process
     private String validationResult;
 
 
@@ -26,7 +26,16 @@ public class Order implements Serializable {
         this.numberOfDivingSuits = numberOfDivingSuits;
     }
 
-    public Order(String customerId, String name, String lastname, String numberOfSurferboards, String numberOfDivingSuits, String overallItems, String orderId, String valid, String validationResult) {
+    public Order(String name, String lastname, String numberOfSurferboards, String numberOfDivingSuits, String customerId, Boolean valid) {
+        this.customerId = customerId;
+        this.name = name;
+        this.lastname = lastname;
+        this.numberOfSurferboards = numberOfSurferboards;
+        this.numberOfDivingSuits = numberOfDivingSuits;
+        this.valid = valid;
+    }
+
+    public Order(String customerId, String name, String lastname, String numberOfSurferboards, String numberOfDivingSuits, String overallItems, String orderId, Boolean valid, String validationResult) {
         this.customerId = customerId;
         this.name = name;
         this.lastname = lastname;
@@ -94,11 +103,11 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public String getValid() {
+    public Boolean getValid() {
         return valid;
     }
 
-    public void setValid(String valid) {
+    public void setValid(Boolean valid) {
         this.valid = valid;
     }
 

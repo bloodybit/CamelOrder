@@ -53,7 +53,6 @@ public class CallCenterOrderSystem extends RouteBuilder {
                 .to("stream:out")
                 .process(orderFactory)
                 .to("stream:out")
-                .to("activemq:queue:billingOrders")
                 .to("activemq:queue:inventoryOrders");
         //from("activemq:queue:callCenterOrder").to("stream:out");
     }
