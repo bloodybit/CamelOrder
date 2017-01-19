@@ -42,7 +42,6 @@ public class ResultSystem {
                             .choice()
                             .when(header("validated"))
                             .filter(method(orderFilter, "isValid"))
-                            .aggregate(constant(0), new CountingAggregation()).completionInterval(5)
                             .to("stream:out")
                             .end()
                             .endChoice().otherwise()

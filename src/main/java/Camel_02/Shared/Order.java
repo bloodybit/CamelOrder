@@ -87,10 +87,6 @@ public class Order implements Serializable {
         this.numberOfDivingSuits = numberOfDivingSuits;
     }
 
-    public String getOverallItems() {
-        return overallItems;
-    }
-
     public void setOverallItems(String overallItems) {
         this.overallItems = overallItems;
     }
@@ -119,8 +115,9 @@ public class Order implements Serializable {
         this.validationResult = validationResult;
     }
 
+
     @Override
     public String toString() {
-        return name + " " + lastname;
+        return name + " " + lastname + " " + numberOfSurferboards + " " + numberOfDivingSuits + " " + customerId + " " + overallItems + " " + orderId + " " + valid + " " + validationResult;
     }
 }
