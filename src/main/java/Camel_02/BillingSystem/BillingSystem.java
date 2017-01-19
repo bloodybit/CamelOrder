@@ -26,7 +26,7 @@ public class BillingSystem {
                     try {
                         Order order = (Order)((ObjectMessage)message).getObject();
 
-                        System.out.println(order);
+
 
                         boolean validated = Math.random() > 0.6;
                         order.setValid(validated);
@@ -35,6 +35,7 @@ public class BillingSystem {
 
                         answer.setBooleanProperty("validated", validated);
                         answer.setStringProperty("orderId", order.getOrderId());
+                        System.out.println(order);
                         MessageProducer producer = session.createProducer(outQueue);
                         producer.send(answer);
                     } catch (JMSException e) {

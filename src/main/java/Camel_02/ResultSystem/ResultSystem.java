@@ -22,10 +22,11 @@ public class ResultSystem {
         @Override
         public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
             if (oldExchange == null) {
+                System.out.print("First");
                 // the first time we only have the new exchange so it wins the first round
                 return newExchange;
             }
-
+            System.out.print("Second");
             //order = oldExchange.getIn().getBody(Order.class);
             boolean param1 = oldExchange.getIn().getBody(Order.class).getValid();
             boolean param2 = newExchange.getIn().getBody(Order.class).getValid();
@@ -33,7 +34,7 @@ public class ResultSystem {
             if ( param1 && param2 ) {
                 newExchange.getIn().getBody(Order.class).setValid(true);
             } else{
-                newExchange.getIn().getBody(Order.class).setValid(true);
+                newExchange.getIn().getBody(Order.class).setValid(false);
             }
 
             newExchange.getIn().setHeader("validated", newExchange.getIn().getBody(Order.class).getValid());
@@ -56,7 +57,7 @@ public class ResultSystem {
                     OrderFilter orderFilter = new OrderFilter();
 
                     from("activemq:queue:resultOrders")
-                            .aggregate(header("orderId"), new ValidatingAggregation()).completionInterval(2)
+                            .aggregate(header("orderId"), new ValidatingAggregation()).completionTimeout(1000)
                             .choice()
                             .when(header("validated"))
                             .filter(method(orderFilter, "isValid"))

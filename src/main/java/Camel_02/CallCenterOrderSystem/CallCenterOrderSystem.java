@@ -31,7 +31,7 @@ public class CallCenterOrderSystem {
         }
     };
     public static void main(String[] args) {
-        final int sleepSeconds = 20; //Change to 120
+        final int sleepSeconds = 100; //Change to 120
 
         CamelContext ctx = new DefaultCamelContext();
         ActiveMQComponent activeMQComponent = ActiveMQComponent.activeMQComponent();
