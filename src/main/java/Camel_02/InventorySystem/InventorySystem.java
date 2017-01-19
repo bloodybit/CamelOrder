@@ -18,7 +18,7 @@ public class InventorySystem {
 
             final Session session = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Queue inQueue = session.createQueue("inventoryOrders");
-            Queue outQueue = session.createQueue("billingOrders");
+            Queue outQueue = session.createQueue("resultOrders");
             MessageConsumer consumer = session.createConsumer(inQueue);
             consumer.setMessageListener(new MessageListener() {
                 @Override
@@ -34,6 +34,7 @@ public class InventorySystem {
 
 
                         answer.setBooleanProperty("validated", validated);
+                        answer.setStringProperty("orderId", order.getOrderId());
 
                         MessageProducer producer = session.createProducer(outQueue);
                         producer.send(answer);

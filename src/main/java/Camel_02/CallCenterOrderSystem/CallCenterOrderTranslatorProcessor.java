@@ -18,7 +18,7 @@ public class CallCenterOrderTranslatorProcessor implements Processor {
 
         String numberOfSurferboards = parts[2];
         String numberOfDivingSuits = parts[3];
-
-        exchange.getIn().setBody(name + ", " + lastname + ", " + numberOfSurferboards + ", " + numberOfDivingSuits + ", " + customerId);
+        String orderId = parts[4];
+        exchange.getIn().setBody(name + ", " + lastname + ", " + numberOfSurferboards + ", " + numberOfDivingSuits + ", " + customerId+","+orderId);
     }
 }

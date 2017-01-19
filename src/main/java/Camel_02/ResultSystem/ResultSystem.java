@@ -1,5 +1,6 @@
 package Camel_02.ResultSystem;
 
+import Camel_02.Shared.Order;
 import Camel_02.Shared.OrderFilter;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.CamelContext;
@@ -14,14 +15,30 @@ import org.apache.camel.processor.aggregate.AggregationStrategy;
 public class ResultSystem {
 
 
-    public static class CountingAggregation implements AggregationStrategy {
+    public static class ValidatingAggregation implements AggregationStrategy {
         private int count = 0;
-
+        private boolean valid = true;
+        private Order order = null;
         @Override
-        public Exchange aggregate(Exchange exchange, Exchange exchange1) {
-            count++;
-            exchange1.getIn().setBody(count);
-            return exchange1;
+        public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
+            if (oldExchange == null) {
+                // the first time we only have the new exchange so it wins the first round
+                return newExchange;
+            }
+
+            //order = oldExchange.getIn().getBody(Order.class);
+            boolean param1 = oldExchange.getIn().getBody(Order.class).getValid();
+            boolean param2 = newExchange.getIn().getBody(Order.class).getValid();
+
+            if ( param1 && param2 ) {
+                newExchange.getIn().getBody(Order.class).setValid(true);
+            } else{
+                newExchange.getIn().getBody(Order.class).setValid(true);
+            }
+
+            newExchange.getIn().setHeader("validated", newExchange.getIn().getBody(Order.class).getValid());
+
+            return newExchange;
         }
     }
 
@@ -39,6 +56,7 @@ public class ResultSystem {
                     OrderFilter orderFilter = new OrderFilter();
 
                     from("activemq:queue:resultOrders")
+                            .aggregate(header("orderId"), new ValidatingAggregation()).completionInterval(2)
                             .choice()
                             .when(header("validated"))
                             .filter(method(orderFilter, "isValid"))

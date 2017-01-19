@@ -4,6 +4,7 @@ import Camel_02.Shared.OrderFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -19,6 +20,16 @@ public class CallCenterOrderSystem {
     private static OrderFactory orderFactory = new OrderFactory();
     private static CallCenterOrderTranslatorProcessor translator = new CallCenterOrderTranslatorProcessor();
 
+    private static Processor idGenerator = new Processor() {
+        private final String CODE = "CCOS";
+        private int counter = 0;
+        @Override
+        public void process(Exchange exchange) throws Exception {
+            String in = exchange.getIn().getBody(String.class);
+            in += ", "+CODE+(counter++);
+            exchange.getIn().setBody(in);
+        }
+    };
     public static void main(String[] args) {
         final int sleepSeconds = 20; //Change to 120
 
@@ -29,16 +40,20 @@ public class CallCenterOrderSystem {
 
         try {
         ctx.addRoutes(new RouteBuilder() {
+
             @Override
             public void configure() throws Exception {
                 from("file:callCenterOrder?noop=true") // add ?noop=true
                         .split(body().tokenize("\n"))
-
+                        .process(idGenerator)
                         .process(translator)
                         .to("stream:out")
                         .process(orderFactory)
                         .to("stream:out")
+                        .multicast()
+                        .to("activemq:queue:billingOrders")
                         .to("activemq:queue:inventoryOrders");
+
                 }
             });
 

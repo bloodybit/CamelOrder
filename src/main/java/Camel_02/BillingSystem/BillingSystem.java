@@ -34,7 +34,7 @@ public class BillingSystem {
 
 
                         answer.setBooleanProperty("validated", validated);
-
+                        answer.setStringProperty("orderId", order.getOrderId());
                         MessageProducer producer = session.createProducer(outQueue);
                         producer.send(answer);
                     } catch (JMSException e) {

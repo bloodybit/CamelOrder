@@ -18,33 +18,34 @@ public class Order implements Serializable {
     private String validationResult;
 
 
-    public Order(String name, String lastname, String numberOfSurferboards, String numberOfDivingSuits, String customerId) {
-        this.customerId = customerId;
-        this.name = name;
-        this.lastname = lastname;
-        this.numberOfSurferboards = numberOfSurferboards;
-        this.numberOfDivingSuits = numberOfDivingSuits;
+    public Order(String name, String lastname, String numberOfSurferboards, String numberOfDivingSuits, String customerId, String orderId) {
+        this.customerId = customerId.trim();
+        this.name = name.trim();
+        this.lastname = lastname.trim();
+        this.numberOfSurferboards = numberOfSurferboards.trim();
+        this.numberOfDivingSuits = numberOfDivingSuits.trim();
+        this.orderId = orderId.trim();
     }
 
     public Order(String name, String lastname, String numberOfSurferboards, String numberOfDivingSuits, String customerId, Boolean valid) {
-        this.customerId = customerId;
-        this.name = name;
-        this.lastname = lastname;
-        this.numberOfSurferboards = numberOfSurferboards;
-        this.numberOfDivingSuits = numberOfDivingSuits;
+        this.customerId = customerId.trim();
+        this.name = name.trim();
+        this.lastname = lastname.trim();
+        this.numberOfSurferboards = numberOfSurferboards.trim();
+        this.numberOfDivingSuits = numberOfDivingSuits.trim();
         this.valid = valid;
     }
 
     public Order(String customerId, String name, String lastname, String numberOfSurferboards, String numberOfDivingSuits, String overallItems, String orderId, Boolean valid, String validationResult) {
-        this.customerId = customerId;
-        this.name = name;
-        this.lastname = lastname;
-        this.numberOfSurferboards = numberOfSurferboards;
-        this.numberOfDivingSuits = numberOfDivingSuits;
-        this.overallItems = overallItems;
-        this.orderId = orderId;
+        this.customerId = customerId.trim();
+        this.name = name.trim();
+        this.lastname = lastname.trim();
+        this.numberOfSurferboards = numberOfSurferboards.trim();
+        this.numberOfDivingSuits = numberOfDivingSuits.trim();
+        this.overallItems = overallItems.trim();
+        this.orderId = orderId.trim();
         this.valid = valid;
-        this.validationResult = validationResult;
+        this.validationResult = validationResult.trim();
     }
 
     public String getCustomerId() {
@@ -118,6 +119,18 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return name + " " + lastname + " " + numberOfSurferboards + " " + numberOfDivingSuits + " " + customerId + " " + overallItems + " " + orderId + " " + valid + " " + validationResult;
+        return "{name: '"+name + "'; lastname: '"
+                + lastname + "'; #B: '" + numberOfSurferboards
+                + "'; #S: '" + numberOfDivingSuits + "'; cid: '"
+                + customerId + "'; tot: '" + overallItems + "'; orderId: '"
+                + orderId + "'; valid: '" + valid + "'; result: '" + validationResult+"'}";
+    }
+
+    public String toJSONFormat() {
+        return "{\n\t name: '"+name + "';\n\t lastname: '"
+                + lastname + "';\n\t #B: '" + numberOfSurferboards
+                + "';\n\t #S: '" + numberOfDivingSuits + "';\n\t cid: '"
+                + customerId + "';\n\t tot: '" + overallItems + "';\n\t orderId: '"
+                + orderId + "';\n\t valid: '" + valid + "';\n\t result: '" + validationResult+"'\n}";
     }
 }

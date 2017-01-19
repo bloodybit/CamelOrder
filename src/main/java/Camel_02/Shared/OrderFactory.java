@@ -16,7 +16,8 @@ public class OrderFactory implements Processor {
         String numberOfSurferboards = parts[2];
         String numberOfDivingSuits = parts[3];
         String customerId = parts[4];
+        String orderId = parts[5];
 
-        exchange.getIn().setBody(new Order(name, lastname, numberOfSurferboards, numberOfDivingSuits, customerId));
+        exchange.getIn().setBody(new Order(name, lastname, numberOfSurferboards, numberOfDivingSuits, customerId, orderId));
     }
 }
