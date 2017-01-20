@@ -4,7 +4,13 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 /**
- * Created by riccardosibani on 15/01/2017.
+ * Group G05
+ * Riccardo Sibani (0382708)
+ * Filippo Boiani (0387680)
+ * Jin Hu (387514)
+ * Said Ibrihen (386979)
+ *
+ * This class parses a String order and creates an Order object
  */
 public class OrderFactory implements Processor {
 
