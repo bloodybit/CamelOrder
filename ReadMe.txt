@@ -1,7 +1,7 @@
 Camel ActiveMQ Project
 ======================
 
-This project embeds Apache ActiveMQ together with Apache Camel.
+This project embeeds Apache ActiveMQ together with Apache Camel.
 
 To build this project use
 
